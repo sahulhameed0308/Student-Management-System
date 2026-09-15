@@ -17,7 +17,7 @@ public class StudentManagement {
         System.out.print("Enter Password : ");
         String password = sc.next();
 
-        if (username.equals("Thalapathy") && password.equals("TVK")) {
+        if (username.equals("User") && password.equals("12345")) {
             System.out.println("\nLogin Successful!\n");
             return true;
         } else {
