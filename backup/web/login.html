@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login - StudentHub</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        .login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh}
+        .login-card{background:#fff;padding:28px;border-radius:12px;box-shadow:0 12px 30px rgba(15,23,42,0.08);width:320px}
+        .login-card h2{margin:0 0 12px}
+        .login-card input{width:100%;padding:10px;border:1px solid #e6eefc;border-radius:10px;margin-bottom:12px}
+        .login-actions{display:flex;gap:8px;justify-content:flex-end}
+    </style>
+</head>
+<body>
+<div class="login-wrap">
+    <div class="login-card">
+        <h2>Teacher Login</h2>
+        <form id="loginForm">
+            <label>Username
+                <input id="username" type="text" placeholder="User" required />
+            </label>
+            <label>Password
+                <input id="password" type="password" placeholder="12345" required />
+            </label>
+            <div class="login-actions">
+                <button type="submit" class="primary-btn">Login</button>
+            </div>
+        </form>
+        <p style="margin-top:12px;color:#6b7280;font-size:0.9rem">Use username <strong>User</strong> and password <strong>12345</strong></p>
+    </div>
+</div>
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username, password})
+    });
+
+    if (res.ok) {
+        window.location.href = '/';
+    } else {
+        const body = await res.json().catch(()=>({error:'Login failed'}));
+        alert(body.error || 'Login failed');
+    }
+});
+</script>
+<script>
+// Apply saved theme or follow system preference on login page
+(function(){
+    try{
+        const saved = localStorage.getItem('theme');
+        if (saved) {
+            if (saved === 'dark') document.documentElement.classList.add('dark');
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+    } catch(e){}
+})();
+</script>
+</body>
+</html>

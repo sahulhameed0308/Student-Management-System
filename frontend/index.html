@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Management Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <script>
+    try {
+      if (!localStorage.getItem('auth')) {
+        if (!location.pathname.endsWith('/login.html')) location.replace('/login.html');
+      }
+    } catch (e) {}
+  </script>
+  <div class="container">
+    <aside class="sidebar">
+      <h1>StudentHub</h1>
+      <nav>
+        <button class="nav-btn active">Dashboard</button>
+        <button class="nav-btn">Students</button>
+        <button class="nav-btn">Reports</button>
+      </nav>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Student database</p>
+          <h2>Management Dashboard</h2>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button id="refreshBtn" class="primary-btn">Refresh</button>
+          <button id="themeToggle" class="secondary-btn theme-toggle" aria-label="Toggle theme">
+            <span class="theme-icon">
+              <span class="sun">☀️</span>
+              <span class="moon">🌙</span>
+            </span>
+          </button>
+          <button id="logoutBtn" class="secondary-btn">Logout</button>
+        </div>
+      </header>
+
+      <section class="stats-grid">
+        <div class="stat-card">
+          <span>Total Students</span>
+          <strong id="totalStudents">0</strong>
+        </div>
+        <div class="stat-card">
+          <span>Active Courses</span>
+          <strong id="courseCount">0</strong>
+        </div>
+        <div class="stat-card">
+          <span>Latest</span>
+          <strong id="latestStudent">-</strong>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <div class="card form-card">
+          <h3 id="formTitle">Add Student</h3>
+          <form id="studentForm">
+            <input type="hidden" id="studentId" />
+
+            <label>
+              Student Name
+              <input type="text" id="name" placeholder="Enter student name" required />
+            </label>
+
+            <label>
+              Email
+              <input type="email" id="email" placeholder="Enter email" required />
+            </label>
+
+            <label>
+              Course
+              <input type="text" id="course" placeholder="Enter course" required />
+            </label>
+
+            <!-- Photo field removed -->
+
+            <div class="form-actions">
+              <button type="submit" class="primary-btn">Save Student</button>
+              <button type="button" id="cancelEdit" class="secondary-btn hidden">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card table-card">
+          <div class="table-header">
+            <h3>Student Records</h3>
+            <div style="margin-top:10px; display:flex; gap:8px; align-items:center;">
+              <input id="searchInput" type="search" placeholder="Search by name, email, or course" style="flex:1; padding:10px; border-radius:8px; border:1px solid var(--border); background:#f9fbff" />
+              <button id="clearSearch" class="secondary-btn">Clear</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Course</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+                <tbody id="studentTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
